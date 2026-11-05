@@ -1,266 +1,160 @@
-# LLM Learning Journey
+# 🚀 LLM Learning Journey
 
-A structured, hands-on repository to document my learning about **Large Language Models (LLMs)** using Python and Google Gemini.
+Welcome to my **LLM Learning Journey!**
 
-I am building this repository step by step. Each topic will include notes, runnable code, experiments, and small projects so that I can track my progress and revise concepts for interviews.
+This repository documents my hands-on learning of Large Language Models (LLMs) using Python and Google Gemini.
 
-## Learning goals
+I am learning step by step by exploring concepts, writing code, experimenting with AI models, and building small projects.
 
-- Understand how LLM-powered applications work.
-- Learn prompt engineering and model/API interaction.
-- Build practical applications using Python and Gemini.
-- Gradually explore embeddings, vector databases, Retrieval-Augmented Generation (RAG), agents, and evaluation.
+## 📚 Topics I'm Learning
 
-## Repository structure
+- Large Language Models (LLMs)
+- Prompt Engineering
+- Google Gemini API
+- AI Chatbots
+- Conversation Memory
+- Structured Outputs
+- Embeddings and Vector Databases
+- Retrieval-Augmented Generation (RAG)
+- AI Agents
+
+## 📂 Project Structure
 
 ```text
 llm-learning-journey/
 │
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── .env.example
-│
 ├── notebooks/
-│   └── 01_gemini_llm_and_recipe_generator.ipynb
+│   ├── 01_gemini_llm_and_recipe_generator.ipynb
+│   └── chatbot_with_memory.ipynb
 │
-└── src/
-    └── (Python modules and reusable code will be added here)
+├── src/
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
-### Folder guide
+## 📝 My Learning Progress
 
-| Path | Purpose |
-|---|---|
-| `notebooks/` | Learning notebooks, experiments, explanations, and outputs |
-| `src/` | Reusable Python code as the repository grows |
-| `requirements.txt` | Python packages required for the examples |
-| `.env.example` | Shows which environment variables are needed, without exposing secrets |
-| `.gitignore` | Prevents secrets, virtual environments, and temporary files from being committed |
+### Day 01 – Introduction to LLMs and Google Gemini
 
-## Day 01 — First LLM output with Google Gemini
+**Notebook:** [Gemini LLM and Recipe Generator](notebooks/01_gemini_llm_and_recipe_generator.ipynb)
 
-**Notebook:** [`01_gemini_llm_and_recipe_generator.ipynb`](notebooks/01_gemini_llm_and_recipe_generator.ipynb)
+What I learned:
 
-### Topics covered
+- Understanding Large Language Models.
+- Connecting Python with Google Gemini API.
+- Sending prompts and receiving AI responses.
+- Using environment variables for API keys.
+- Creating a Recipe Generator using Python.
+- Working with Python functions and strings.
 
-#### 1. What is an LLM?
+### Day 02 – Building a Chatbot with Memory
 
-A Large Language Model is an AI model trained on large amounts of text so it can understand and generate language. In this lesson, I used an LLM through an API rather than training a model myself.
+**Notebook:** [Chatbot With Memory](notebooks/chatbot_with_memory.ipynb)
 
-#### 2. Installing packages
+What I learned:
 
-```bash
-pip install google-genai python-dotenv
-```
+- Initializing the Gemini client.
+- Generating responses using Gemini.
+- Creating a chatbot using Python.
+- Storing conversation history in a Python list.
+- Maintaining context between messages.
+- Handling API errors.
 
-- `google-genai` provides the Python SDK for calling Gemini.
-- `python-dotenv` helps load environment variables from a local `.env` file.
-
-#### 3. Environment variables and API-key safety
-
-The API key is stored outside the notebook in a local `.env` file:
+**Example:**
 
 ```text
-GEMINI_API_KEY=your_gemini_api_key
+User: My name is Hariprasad.
+
+Chatbot: Hello Hariprasad!
+
+User: What is my name?
+
+Chatbot: Your name is Hariprasad!
 ```
 
-Python loads it with:
+*Note: The current chatbot stores conversation history during the running session. It does not yet have permanent memory.*
 
-```python
-from dotenv import load_dotenv
-import os
+## 🛠️ Technologies Used
 
-load_dotenv()
-api_key = os.getenv("GEMINI_API_KEY")
-```
+- Python
+- Google Gemini API
+- Google Gen AI SDK
+- Jupyter Notebook
+- python-dotenv
 
-**Security rule:** Never commit `.env`, paste API keys into notebooks, or share them in screenshots. The `.gitignore` file in this repository excludes `.env`.
+## ⚙️ How to Run
 
-#### 4. Initializing the Gemini client
-
-```python
-from google import genai
-
-client = genai.Client(api_key=api_key)
-```
-
-The `client` object is then used to send requests to Gemini. If Python reports `NameError: name 'client' is not defined`, run the cell that creates `client` before running code that uses it.
-
-#### 5. Sending a prompt to Gemini
-
-```python
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="Explain LLMs in simple English."
-)
-
-print(response.text)
-```
-
-The prompt is the input instruction. `generate_content()` sends it to the selected model, and `response.text` reads the generated text. Model IDs and availability can change, so check the current Gemini API documentation if a model is unavailable.
-
-#### 6. Python function: recipe generator
-
-The notebook defines:
-
-```python
-def generate_recipe(ingredients: list[str], cuisine: str, diet: str) -> str:
-    ...
-```
-
-Inputs:
-- `ingredients`: list of available ingredients.
-- `cuisine`: desired cuisine, such as Indian or Italian.
-- `diet`: dietary preference, such as vegetarian, vegan, Jain, non-vegetarian, or Any.
-
-The function builds a prompt with an f-string and sends it to Gemini.
-
-**Python concept learned — `join()`:**
-
-```python
-ingredients = ["tomato", "onion", "chilli"]
-ingredient_text = ", ".join(ingredients)
-print(ingredient_text)
-# tomato, onion, chilli
-```
-
-Use `join()` on a list of strings to create a readable ingredient line. Applying `join()` to a plain string would join its characters instead.
-
-### Day 01 workflow
-
-```text
-Install packages
-      ↓
-Store API key in .env
-      ↓
-Load environment variables
-      ↓
-Initialize Gemini client
-      ↓
-Write a prompt
-      ↓
-Call generate_content()
-      ↓
-Read response.text
-      ↓
-Build and test a reusable recipe function
-```
-
-### Practice / next improvements
-
-- [ ] Try different cuisines and ingredients.
-- [ ] Add input validation for empty ingredients.
-- [ ] Add a `max_words` parameter.
-- [ ] Ask for structured output with recipe name, ingredients, and steps.
-- [ ] Add a simple user interface for the recipe generator.
-
-## Planned learning roadmap
-
-This is the planned sequence for future learning. Items below are **planned**, not yet completed.
-
-| Stage | Topic | Planned hands-on work |
-|---|---|---|
-| 1 | LLM fundamentals | Tokens, context window, temperature, model input/output |
-| 2 | Prompt engineering | Zero-shot, few-shot, role/task/context, output constraints |
-| 3 | Gemini API | Chat, multi-turn conversations, system instructions |
-| 4 | Structured outputs | JSON responses, schemas, validation with Pydantic |
-| 5 | Embeddings | Semantic similarity and vector representations |
-| 6 | Vector databases | Store and retrieve relevant text chunks |
-| 7 | RAG | Build a document question-answering application |
-| 8 | Tools and function calling | Let a model request application functions |
-| 9 | AI agents | Tool use, planning, state, and controlled workflows |
-| 10 | Evaluation and safety | Test quality, grounding, errors, and prompt injection risks |
-| 11 | Deployment | Build an API with FastAPI and deploy a small LLM app |
-
-## Setup instructions
-
-### 1. Clone the repository
+**1. Clone the repository**
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/llm-learning-journey.git
-cd llm-learning-journey
+git clone https://github.com/hariprasad032006-457/LLM.git
 ```
 
-### 2. Create and activate a virtual environment (recommended)
-
-Windows:
+**2. Open the project folder**
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
+cd LLM/llm-learning-journey
 ```
 
-macOS / Linux:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
-### 3. Install dependencies
+**3. Install dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure the API key
+**4. Configure your API key**
 
-Copy `.env.example` to `.env` and add your Gemini API key:
+Create a `.env` file:
 
-```text
-GEMINI_API_KEY=your_real_key_here
+```env
+GEMINI_API_KEY=your_api_key_here
 ```
 
-Get a key from [Google AI Studio](https://aistudio.google.com/apikey).
+Get your API key from [Google AI Studio](https://aistudio.google.com/).
 
-### 5. Start Jupyter
+**5. Start Jupyter Notebook**
 
 ```bash
 jupyter notebook
 ```
 
-Open `notebooks/01_gemini_llm_and_recipe_generator.ipynb` and run the cells from top to bottom.
+Open any notebook inside the `notebooks` folder and run the cells.
 
-## Requirements
+**Important:** Never upload your API key or `.env` file to GitHub.
 
-- Python 3.10+
-- A Gemini API key
-- Internet connection for Gemini API requests
-- Jupyter Notebook (or JupyterLab)
+## 🎯 Upcoming Learning Goals
 
-## Progress tracker
+- [ ] Learn Prompt Engineering
+- [ ] Explore LLM Parameters and Tokens
+- [ ] Build Multi-turn Chatbots
+- [ ] Learn Structured Outputs and JSON
+- [ ] Understand Embeddings
+- [ ] Explore Vector Databases
+- [ ] Build a RAG Application
+- [ ] Learn AI Agents and Tool Calling
+- [ ] Build and Deploy an LLM Application
 
-- [x] Day 01 — First LLM output with Gemini and a recipe generator
-- [ ] Day 02 — LLM fundamentals and prompt engineering
-- [ ] Day 03 — Multi-turn chat with Gemini
-- [ ] Day 04 — Structured output and JSON
-- [ ] Day 05 — Embeddings and semantic search
-- [ ] Day 06 — Vector databases
-- [ ] Day 07 — Build a basic RAG application
+## 📖 Learning Resources
 
-Update this checklist as each topic is completed.
+- [Google AI Studio](https://aistudio.google.com/)
+- [Gemini API Documentation](https://ai.google.dev/gemini-api/docs)
+- [Python Documentation](https://docs.python.org/3/)
+- [Google Gen AI SDK](https://github.com/googleapis/python-genai)
 
-## Learning log format for future days
+## 👨‍💻 About Me
 
-For each new topic, add a notebook and update the README with:
+**Hariprasad Boddala**
 
-1. **What I learned** — short explanation in my own words.
-2. **Important concepts** — definitions and key points.
-3. **Code examples** — small runnable examples.
-4. **Experiment** — what I tried and what happened.
-5. **Errors and fixes** — problems encountered and solutions.
-6. **Practice tasks** — exercises to reinforce learning.
-7. **References** — official documentation and useful learning resources.
+B.Tech – Computer Science Engineering (AI & ML)
 
-## Useful resources
+- GitHub: [My GitHub](https://github.com/hariprasad032006-457)
+- LinkedIn: [My LinkedIn](https://www.linkedin.com/in/hari-prasad-01a7183a7/)
+- LeetCode: [My LeetCode](https://leetcode.com/u/hariprasad457/)
 
-- [Google Gemini API documentation](https://ai.google.dev/gemini-api/docs)
-- [Google Gen AI Python SDK](https://github.com/googleapis/python-genai)
-- [Python documentation](https://docs.python.org/3/)
-- [python-dotenv documentation](https://pypi.org/project/python-dotenv/)
-- [Jupyter documentation](https://jupyter.org/documentation)
+---
 
-## Note
+⭐ This repository is my learning journey in Generative AI and Large Language Models.
 
-This repository is a personal learning journal and practical project collection. Code and notes will evolve as I learn more. Always check official documentation for current model names, SDK behavior, pricing, and API limits.
+**Keep Learning | Keep Building | Keep Growing 🚀**
